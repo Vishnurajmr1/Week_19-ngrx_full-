@@ -1,11 +1,11 @@
-import multer,{diskStorage,FileFilterCallback} from 'multer';
+import multer from 'multer';
 import path from 'path';
 import { Request } from 'express';
 import CustomError from '../utils/customErrors';
+
 const storage=multer.diskStorage({
     filename:(req,file,cb)=>{
-        const uniqueSuffix=Date.now()+'-'+Math.round(Math.random()*1E9);
-        cb(null,file.fieldname+'-'+uniqueSuffix+path.extname(file.originalname)); 
+        cb(null, Date.now() + "-" + file.originalname);
     }
 });
 
@@ -25,8 +25,8 @@ const fileFilter=(req:Request,file:Express.Multer.File,cb:any)=>{
 
 const upload=multer({
     storage,
-    limits:{fileSize:2*1024*1024},//2MB limit
     fileFilter,
+    limits:{fileSize:2*1024*1024},//2MB limit
 })
 
 export default upload;

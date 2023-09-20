@@ -6,8 +6,9 @@ import CustomError from "../utils/customErrors";
 
 export default {
     signup:asyncErrorHandler(async(req:Request,res:Response,next:NextFunction)=>{
-        const {gender}=req.body
+        const {gender,role}=req.body
         let imageUrl;
+        let is_Admin;
         if(gender==='male'){
             imageUrl='/images/avatar/male.jpg'
         }else if(gender ==='female'){
@@ -15,8 +16,13 @@ export default {
         }else{
             imageUrl='/images/avatar/random.png'
         }
-       const newUser = await User.create({...req.body,imageUrl});
-       const token=generateToken({id:newUser._id.toString(),role:'user'})
+        if(role && role=='admin'){
+            is_Admin=true;
+        }else{
+            is_Admin=false;
+        }
+       const newUser = await User.create({...req.body,imageUrl,is_Admin});
+       const token=generateToken({id:newUser._id.toString(),role})
        res.status(201).json({
         status:'success',
         token,
@@ -40,6 +46,9 @@ export default {
         //Check if the user exists & password matches
         if(!user ||!isMatch){
             const error=new CustomError('Incorrect email or password',400);
+            return next(error);
+        }else if(user.is_Blocked){
+            const error=new CustomError('User has been blocked',400);
             return next(error);
         }
 

@@ -8,9 +8,14 @@ interface IUser extends Document {
   password: string;
   confirmPassword: string;
   phoneNumber: string;
+  passwordChangedAt:Date;
   imageUrl: string;
   gender: string;
+  role:string;
+  is_Admin:boolean;
+  is_Blocked:boolean;
   comparePasswordInDb: (password: string, passwordInDB: string) => Promise<boolean>;
+   isPasswordChanged(JWTTimestamp:any):Promise<boolean>;
 }
 
 // Define the allowed values for the "gender" field
@@ -61,6 +66,25 @@ const userSchema = new mongoose.Schema<IUser>({
       message: "Password & Confirm Password does not match!",
     },
   },
+  passwordChangedAt:{
+    type:Date,
+    select:false
+  },
+  is_Admin:{
+    type:Boolean,
+    default:false ,
+    select:false                                                    
+  },
+  is_Blocked:{
+    type:Boolean,
+    default:false, 
+    select:false                                                 
+  },
+  role:{
+    type:String,
+    enum:['user','admin'],
+    default:'user'
+  }
 });
 
 userSchema.pre("save", async function (next) {
@@ -77,6 +101,17 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.comparePasswordInDb=async function(pswd:string,pswdDb:string) {
     return await bcrypt.compare(pswd,pswdDb);
+}
+userSchema.index({name:'text'});
+userSchema.methods.isPasswordChanged=async function(JWTTimestamp:any){
+  console.log('hekkiew')
+  if(this.passwordChangedAt){
+    const pswdChangedTimestamp=Math.floor(this.passwordChangedAt.getTime() /1000);
+    console.log(this.passwordChangedAt,JWTTimestamp)
+
+    return JWTTimestamp<pswdChangedTimestamp;
+  }
+  return false;
 }
  
 export const User = mongoose.model<IUser>("User", userSchema);

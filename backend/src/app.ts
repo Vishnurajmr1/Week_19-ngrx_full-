@@ -1,12 +1,13 @@
 //IMPORT PACKAGE
 
 import express from 'express';
-import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
-import authRouter from './Routes/authRouter';
+import authRouter from './Routes/auth.Router';
 import adminRouter from './Routes/admin.Router';
+import userRouter from './Routes/user.Router';
 import CustomError from './utils/customErrors';
+
 
 const app=express()
 
@@ -19,8 +20,9 @@ app.use(cors({
 
 //USING ROUTES
 
-app.use('/api/v1/users',authRouter); //auth router
+app.use('/api/v1/auth',authRouter); //auth router
 app.use('/api/v1/admin',adminRouter);//admin router
+app.use('/api/v1/user',userRouter);//user router
 
 // Define a handler for the root path
 app.get('/', (req, res) => {
