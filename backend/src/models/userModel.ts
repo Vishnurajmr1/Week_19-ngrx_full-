@@ -104,7 +104,6 @@ userSchema.methods.comparePasswordInDb=async function(pswd:string,pswdDb:string)
 }
 userSchema.index({name:'text'});
 userSchema.methods.isPasswordChanged=async function(JWTTimestamp:any){
-  console.log('hekkiew')
   if(this.passwordChangedAt){
     const pswdChangedTimestamp=Math.floor(this.passwordChangedAt.getTime() /1000);
     console.log(this.passwordChangedAt,JWTTimestamp)

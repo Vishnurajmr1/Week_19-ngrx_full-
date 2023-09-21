@@ -153,7 +153,6 @@ export const blockUser = asyncErrorHandler(
       const statusmessage = user.is_Blocked
         ? "User has been blocked"
         : "User has been unblocked";
-      console.log(statusmessage);
       res.status(200).json({
         status: "success",
         message: statusmessage,

@@ -1,0 +1,67 @@
+<section>
+<div class="wrapper" *ngIf="formOpen">
+    <span class="icon-close" (click)="closeForm()">
+      <i class='bx bx-x' ></i>
+    </span>
+    <div class="form-box register">
+      <h2>Signup</h2>
+      <form action="#" [formGroup]="user" (ngSubmit)="handleSignup()">
+        <div class="input-box">
+            <span class="icon"><i class='bx bxs-user-circle'></i></span>
+            <input type="text" required  name="name" formControlName="name">
+            <label >Name</label>
+            <small *ngIf="user.get('name')?.hasError('required') && user.get('name')?.touched" class="error">Must Enter Your Name</small>
+          </div> 
+        <div class="input-box">
+          <span class="icon"><i class='bx bxs-envelope'></i></span>
+          <input type="email" required name="email" formControlName="email" />
+          <label>Email</label>
+          <small *ngIf="val['email'].touched && val['email'].errors?.['required']" class="error">Must Enter Your Email</small>
+          <small *ngIf="val['email'].touched && val['email'].errors?.['email']" class="error">Enter A Valid Email</small>
+        </div>
+        <div class="input-box">
+          <span class="icon"><i class='bx bxs-phone'></i></span>
+          <input type="tel" required name="phone" formControlName="phone" />
+          <label>phone Number</label>
+          <small *ngIf="val['phone'].touched && val['phone'].errors?.['required']" class="error">Must Enter Your Phone</small>
+          <small *ngIf="val['phone'].touched && val['phone'].errors?.['minlength']" class="error">Enter a Valid Phone Number</small>
+          <small *ngIf="val['phone'].touched && val['phone'].errors?.['maxlength']" class="error">Enter a Valid Phone Number</small>
+        </div>
+        <div class="input-box">
+          <span class="icon"><i class='bx bxs-lock-alt'></i></span>
+          <input type="password" required  name="password" formControlName="password"/>
+          <label >Password</label>
+          <small *ngIf="val['password'].touched && val['password'].errors?.['required']" class="error">Must Enter A Password</small>
+          <small *ngIf="val['password'].touched && val['password'].errors?.['minlength']" class="error">Password should contain 8 characters</small>
+        </div>
+        <div class="input-box">
+          <span class="icon"><i class='bx bxs-lock-alt'></i></span>
+          <input type="password" required name="confirmPassword" formControlName="confirmPassword"/>
+          <label >Confirm Password</label>
+          <small *ngIf="val['confirmPassword'].touched && val['confirmPassword'].errors?.['required']" class="error">Enter Your Password Again</small>
+          <small *ngIf="val['confirmPassword'].touched && val['confirmPassword'].errors?.['mustMatch']" class="error">Both Passwords Should Match</small>
+        </div>
+        <div class="gender">
+            <label for="" id="gen">Gender</label>
+            <div class="gender-class">
+              <div *ngFor="let item of RADIO_LIST;let i=index" >
+              <input type="radio" name="gender" [value]="item.value" [checked]="item.checked" formControlName="gender"/>
+            <label for="male">{{item.name}}</label>
+          </div>
+            </div>
+          <small *ngIf="isFormSubmitted && user.controls['gender'].errors?.['required']">
+            Please select any option above!</small>
+        </div>
+        <div class="remember-forgot">
+          <label><input type="checkbox">Remember me</label>
+          <a href="#">agree to the terms & conditions</a>
+        </div>
+        <button type="submit" class="btn" [disabled]="!user.valid">Register</button>
+        <div class="login-register">
+          <p>Already have an account?<a [routerLink]="'/login'" class="register-link">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+   
