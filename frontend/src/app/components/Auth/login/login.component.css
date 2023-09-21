@@ -138,3 +138,11 @@
 .login-register p a:hover{
     text-decoration: underline;
 }
+
+.error{
+    color: red;
+    margin-top: 0.3rem;
+    font-size: 0.7rem;
+    /* padding-left: 7%; */
+    display: block;
+  }

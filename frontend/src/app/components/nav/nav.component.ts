@@ -13,7 +13,6 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
    
   }
-
   login(){
     this.router.navigateByUrl('login')
   }

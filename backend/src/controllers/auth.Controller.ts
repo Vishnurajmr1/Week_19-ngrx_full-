@@ -33,15 +33,17 @@ export default {
     }),
     login:asyncErrorHandler(async(req:Request,res:Response,next:NextFunction)=>{
         const {email,password}=req.body;
+        console.log(email);
+        console.log(password);
         //Check if email & password is present in request body
         if(!email || !password){
             const error=new CustomError('Please provide email ID & Password for login in!',400);
             return next(error);
         }
         //Check if user exists with given email
-        const user=await User.findOne({email}).select('+password');
-
+        const user=await User.findOne({email:email}).select('+password');
         const isMatch=await user?.comparePasswordInDb(password,user.password);
+        console.log(user,isMatch)
 
         //Check if the user exists & password matches
         if(!user ||!isMatch){

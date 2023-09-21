@@ -5,16 +5,20 @@
   </span>
   <div class="form-box login" >
     <h2>Login</h2>
-    <form action="#">
+    <form action="#" [formGroup]="userlogin" (ngSubmit)="handleLogin()" >
       <div class="input-box">
         <span class="icon"><i class='bx bxs-envelope'></i></span>
-        <input type="email" required />
+        <input type="email" required  formControlName="email" name="email"/>
         <label>Email</label>
+        <small *ngIf="val['email'].touched && val['email'].errors?.['email']" class="error">Enter A Valid Email</small>
+        <small *ngIf="val['email'].touched && val['email'].errors?.['required']" class="error">Must Enter Your Email</small>
       </div>
       <div class="input-box">
         <span class="icon"><i class='bx bxs-lock-alt'></i></span>
-        <input type="password" required />
+        <input type="password" required  formControlName="password" name="password"/>
         <label >Password</label>
+        <small *ngIf="val['password'].touched && val['email'].errors?.['required']" class="error">Must Enter A Password</small>
+        <small *ngIf="val['email'].touched && val['email'].errors?.['minlength']" class="error">Password should contain 8 characters</small>
       </div>
       <div class="remember-forgot">
         <label><input type="checkbox">Remember me</label>

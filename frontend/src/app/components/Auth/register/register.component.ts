@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { User } from 'src/app/Store/Model/User.model';
+import { userRegistration } from 'src/app/Store/User/user.actions';
 import { passwordChecker } from 'src/app/custom/Validators';
 import { MasterService } from 'src/app/services/master.service';
 
@@ -14,6 +16,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private store:Store,
     private userService: MasterService
   ) {}
   user!: FormGroup;
@@ -61,11 +64,9 @@ export class RegisterComponent implements OnInit {
         confirmPassword:this.user.value.confirmPassword
       }
       console.log(user);
-      this.userService.signup(user).subscribe(
-        (response)=>{
-          this.router.navigateByUrl('/login');
-        }
-      )
+      if(this.user.valid){
+        this.store.dispatch(userRegistration({inputdata:user}))
+      }
     }
   }
 

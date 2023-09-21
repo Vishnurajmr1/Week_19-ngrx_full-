@@ -1,4 +1,5 @@
 export interface User{
+    _id?: string|Object;
     name:string,
     email:string,
     phoneNumber:string,
@@ -11,8 +12,13 @@ export interface User{
     role?:string
 }
 
+export interface UserToken{
+    token:string
+}
+
 export interface UserModel{
     list:User[],
-    userojb:User,
-    errormessage:string
+    user:User
+    token:string
+    errormessage:string;
 }

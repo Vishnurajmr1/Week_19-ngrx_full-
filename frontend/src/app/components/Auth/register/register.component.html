@@ -44,7 +44,7 @@
         <div class="gender">
             <label for="" id="gen">Gender</label>
             <div class="gender-class">
-              <div *ngFor="let item of RADIO_LIST;let i=index" >
+              <div *ngFor="let item of RADIO_LIST;let i=index">
               <input type="radio" name="gender" [value]="item.value" [checked]="item.checked" formControlName="gender"/>
             <label for="male">{{item.name}}</label>
           </div>
