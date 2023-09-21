@@ -43,8 +43,6 @@ export default {
         //Check if user exists with given email
         const user=await User.findOne({email:email}).select('+password');
         const isMatch=await user?.comparePasswordInDb(password,user.password);
-        console.log(user,isMatch)
-
         //Check if the user exists & password matches
         if(!user ||!isMatch){
             const error=new CustomError('Incorrect email or password',400);
